@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function ChatRoom({ roomId }) {
+export default function ChatRoom({ roomId, userName }) {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const router = useRouter();
@@ -34,7 +34,7 @@ export default function ChatRoom({ roomId }) {
     const response = await fetch('/api/chat/send', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ roomId, message: newMessage }),
+      body: JSON.stringify({ roomId, message: newMessage, user: userName }),
     });
     if (response.ok) {
       setNewMessage('');
@@ -43,7 +43,7 @@ export default function ChatRoom({ roomId }) {
 
   return (
     <div>
-      <h1>Chat Room: {roomId}</h1>
+      <h1>Room: {roomId}</h1>
       <div>
         {messages.map((msg, index) => (
           <p key={index}><strong>{msg.user}:</strong> {msg.text}</p>
