@@ -1,5 +1,10 @@
+'use client'
+
 import ChatRoom from '@/components/chatRoom'
+import { useSearchParams } from 'next/navigation';
 
 export default function ChatPage({ params }) {
-  return <ChatRoom roomId={params.roomId} />;
+  const searchParams = useSearchParams()
+  const userName = searchParams.get('user')
+  return <ChatRoom roomId={params.roomId} userName={userName}/>
 }
