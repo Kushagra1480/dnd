@@ -1,4 +1,4 @@
-import { addMessage } from '@/lib/chatStore';
+import { addMessage } from '@/app/lib/chatStore';
 
 export async function POST(request) {
   const { roomId, message } = await request.json();

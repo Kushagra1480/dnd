@@ -1,10 +1,7 @@
-import React from 'react'
-
-export default function Layout({ children }) {
+export default function RootLayout({ children }) {
   return (
-    <div className = "layout">
-      <header>dnd</header>
-      <main>{children}</main>
-    </div>
+    <html lang="en">
+      <body>{children}</body>
+    </html>
   );
 }

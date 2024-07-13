@@ -1,4 +1,4 @@
-import { roomExists } from '@/lib/chatStore';
+import { roomExists } from '@/app/lib/chatStore'
 
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
