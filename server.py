@@ -6,6 +6,14 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from dotenv import load_dotenv
 
 load_dotenv()
+Players = ["P1: Elf","P2: Human"]
+turn_counter = 0
+
+def turn_handler():
+    global turn_counter 
+    turn_counter = (turn_counter+1) % len(Players)
+    return Players[turn_counter]
+
 
 
 
@@ -24,7 +32,7 @@ prompt = ChatPromptTemplate.from_messages(
     [
         (
             "system",
-            "You are a Game Master in the game of dungons and drags. Set up a game for the user to play",
+            "You are a Game Master in the game of dungons and dragons. Set up a game for the players" + ', '.join(map(str, Players)) + " Theme: Exploring Underground Labrynth. Ask Your question to "+turn_handler(),
         ),
         MessagesPlaceholder(variable_name="messages"),
     ]
@@ -32,10 +40,10 @@ prompt = ChatPromptTemplate.from_messages(
 
 chain = prompt | llm
 messages = []
-
+template = "\n\n system: Your next question should be addressed only to "
 while True:
-    inputt = input("User: ")
-    messages.append(HumanMessage(inputt))
+    inputt = input("\n :")
+    messages.append(HumanMessage(inputt+ template+turn_handler()))
     response = chain.invoke({"messages": messages})
     messages.append(response)
 
