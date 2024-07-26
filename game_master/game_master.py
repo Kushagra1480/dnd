@@ -45,7 +45,9 @@ def response(room_id:str,conversation:Conversation):
     curr_prompt = system_message_prompt.format(theme= theme, context=context, mood_setting=mood_setting)
     messages = [curr_prompt] + [player_context_prompt(room_id=room_id)] + generate_conversation_template(conversation=conversation.messages)
     result = chat.invoke(input=messages)
-    return {"room_id": room_id, "Game_Master": result}
+    response = {"room_id": room_id, "Game_Master": result.dict()["content"]}
+    # print(response)
+    return response
 
 
 # DATA BASE FETCHING -----------------------------------------------
