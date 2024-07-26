@@ -35,7 +35,7 @@ def initialize(room_id:str):
     _,context,_ = get_room_config(room_id=room_id)
     prompt = initialize_prompt_template.format(context=context)
     result = chat.invoke(input=[prompt])
-    return {"room_id": room_id, "Game_Master": result}
+    return {"content": result}
 
 
 @app.post("/play/{room_id}")
@@ -44,8 +44,9 @@ def response(room_id:str,conversation:Conversation):
     theme, context, mood_setting = get_room_config(room_id=room_id)
     curr_prompt = system_message_prompt.format(theme= theme, context=context, mood_setting=mood_setting)
     messages = [curr_prompt] + [player_context_prompt(room_id=room_id)] + generate_conversation_template(conversation=conversation.messages)
-    result = chat.invoke(input=messages)
-    response = {"room_id": room_id, "Game_Master": result.dict()["content"]}
+    # result = chat.invoke(input=messages).dict()
+    result = { "content": "testoutput"}
+    response = {"content": result["content"]}
     # print(response)
     return response
 
@@ -81,7 +82,7 @@ TEMPERATURE = 0
 
 
 ROLE_MSG_TEMPLATE_MAP = {
-    "assisant": AIMessage,
+    "assistant": AIMessage,
     "human": HumanMessage,
     "system": SystemMessage
 }

@@ -23,11 +23,28 @@ export default function ChatRoom({ roomId, userName }) {
       if (response.ok) {
         const data = await response.json();
         setMessages(data.messages);
+        
       }
     }, 1000);
 
+    // const state = setInterval(async () => {
+    //   // HTTP GET request to the server
+    //   const response = await fetch(`/api/chat/state?roomId=${roomId}`);
+    //   console.log(response);
+    // }, 1000);
+
     return () => clearInterval(interval);
   }, [roomId, router]);
+
+  useEffect(() => {
+    const state = setInterval(async () => {
+      // HTTP GET request to the server
+      const response = await fetch(`/api/chat/state?roomId=${roomId}`);
+      // console.log(response);
+    }, 3000);
+
+    return () => clearInterval(state);
+  }, [roomId]); 
 
   const sendMessage = async (e) => {
     e.preventDefault();
@@ -59,6 +76,12 @@ export default function ChatRoom({ roomId, userName }) {
         />
         <button type="submit">Send</button>
       </form>
+      {/* toggle button */}
+      <button onClick={() => {
+        fetch(`/api/chat/state?roomId=${roomId}&user=${userName}&state=true`, {
+          method: 'POST',
+        });
+      }}>Ready</button>
     </div>
   );
 }
